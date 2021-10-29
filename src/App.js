@@ -37,7 +37,13 @@ const Lights = () => {
 } 
 
 // Model & Content
-const HTMLContent = ({children, path, positionY}) => {
+const HTMLContent = ({ 
+  domContent,
+  children,
+  path,
+  positionY
+}) => {
+
   const ref = useRef()
 
   // Spinning going to left
@@ -54,14 +60,17 @@ const HTMLContent = ({children, path, positionY}) => {
         <mesh ref={ref} position={[0, -35, 0]}>
           <Model path={path} />
         </mesh>
-        <Html fullscreen>{children}</Html>
+        <Html fullscreen portal={domContent}>{children}</Html>
       </group>
     </Section>
   )
 }
 
 export default function App() {
-  const domContent = useRef()
+  const domContent = useRef();
+  const scrollArea = useRef();
+  const onScroll = (e) => (state.top.current = e.target.scrollTop);
+  useEffect(() => void onScroll({ target: scrollArea.current }), []);
 
   return (
     <>
@@ -76,24 +85,40 @@ export default function App() {
           <HTMLContent
             path="/armchairYellow.gltf"
             positionY={250}
+            domContent={domContent}
           >
             <div className='container'>
-              <h1 className='title'>Hello</h1>
+              <h1 className='title'>Yellow</h1>
             </div>
           </HTMLContent>
 
           <HTMLContent
             path="/armchairGreen.gltf"
-            positionY={250}
+            positionY={0}
+            domContent={domContent}
           >
             <div className='container'>
-              <h1 className='title'>Hello</h1>
+              <h1 className='title'>Green</h1>
             </div>
           </HTMLContent>
+
+          <HTMLContent
+            path="/armchairGray.gltf"
+            positionY={-250}
+            domContent={domContent}
+          >
+            <div className='container'>
+              <h1 className='title'>Gray</h1>
+            </div>
+          </HTMLContent>
+
         </Suspense>
       </Canvas>
 
-      <div className="scrollArea">
+      <div
+        className='scrollArea'
+        ref={scrollArea}
+        onScroll={onScroll}>
         <div style={{ position: "sticky", top: 0 }} ref={domContent} />
         <div style={{ height: `${state.pages * 100}vh` }} />
       </div>
