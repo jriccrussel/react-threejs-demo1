@@ -40,11 +40,12 @@ const Lights = () => {
 const HTMLContent = () => {
   const ref = useRef()
 
+  useFrame(() => (ref.current.rotation.y += 0.01))
 
   return (
     <Section factor={1.5} offset={1}>
       <group position={[0, 250, 0]}>
-        <mesh position={[0, -35, 0]}>
+        <mesh ref={ref} position={[0, -35, 0]}>
           <Model />
         </mesh>
         <Html fullscreen>
