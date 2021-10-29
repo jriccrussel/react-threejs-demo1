@@ -48,10 +48,11 @@ export default function App() {
         colorManagement
         camera={{ position: [0, 0, 120], fov: 70 }}>
         {/* Lights Component */}
-        
 
-        <HTMLContent />
+        <Suspense fallback={null}>
+          <HTMLContent />
+        </Suspense>
       </Canvas>
     </>
-  );
+  )
 }
