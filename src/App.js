@@ -38,6 +38,7 @@ const Lights = () => {
 
 // Model & Content
 const HTMLContent = ({ 
+  bgColor,
   domContent,
   children,
   path,
@@ -52,7 +53,14 @@ const HTMLContent = ({
   // Spinning going to right
   useFrame(() => (ref.current.rotation.y += 0.01))
 
-  
+  // Change BG color onScroll
+  const [refItem, inView] = useInView({
+    threshold: 0,
+  })
+
+  useEffect(() => {
+    inView && (document.body.style.background = bgColor);
+  }, [inView])
 
   return (
     <Section factor={1.5} offset={1}>
@@ -60,7 +68,9 @@ const HTMLContent = ({
         <mesh ref={ref} position={[0, -35, 0]}>
           <Model path={path} />
         </mesh>
-        <Html fullscreen portal={domContent}>{children}</Html>
+        <Html fullscreen portal={domContent}>
+          <div className='container' ref={refItem}>{children}</div>
+        </Html>
       </group>
     </Section>
   )
@@ -85,31 +95,31 @@ export default function App() {
           <HTMLContent
             path="/armchairYellow.gltf"
             positionY={250}
+            bgColor={'#f15946'}
             domContent={domContent}
           >
-            <div className='container'>
+            {/* <div className='container'>
               <h1 className='title'>Yellow</h1>
-            </div>
+            </div> */}
+            <h1 className='title'>Yellow</h1>
           </HTMLContent>
 
           <HTMLContent
             path="/armchairGreen.gltf"
             positionY={0}
+            bgColor={'#571ec1'}
             domContent={domContent}
           >
-            <div className='container'>
-              <h1 className='title'>Green</h1>
-            </div>
+            <h1 className='title'>Green</h1>
           </HTMLContent>
 
           <HTMLContent
             path="/armchairGray.gltf"
             positionY={-250}
+            bgColor={'#636567'}
             domContent={domContent}
           >
-            <div className='container'>
-              <h1 className='title'>Gray</h1>
-            </div>
+            <h1 className='title'>Gray</h1>
           </HTMLContent>
 
         </Suspense>
