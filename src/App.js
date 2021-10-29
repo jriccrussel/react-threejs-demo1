@@ -61,6 +61,8 @@ const HTMLContent = ({children, path, positionY}) => {
 }
 
 export default function App() {
+  const domContent = useRef()
+
   return (
     <>
       <Header />
@@ -79,8 +81,22 @@ export default function App() {
               <h1 className='title'>Hello</h1>
             </div>
           </HTMLContent>
+
+          <HTMLContent
+            path="/armchairGreen.gltf"
+            positionY={250}
+          >
+            <div className='container'>
+              <h1 className='title'>Hello</h1>
+            </div>
+          </HTMLContent>
         </Suspense>
       </Canvas>
+
+      <div className="scrollArea">
+        <div style={{ position: "sticky", top: 0 }} ref={domContent} />
+        <div style={{ height: `${state.pages * 100}vh` }} />
+      </div>
     </>
   )
 }
