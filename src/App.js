@@ -40,7 +40,13 @@ const Lights = () => {
 const HTMLContent = () => {
   const ref = useRef()
 
+  // Spinning going to left
+  // useFrame(() => (ref.current.rotation.y -= 0.01))
+
+  // Spinning going to right
   useFrame(() => (ref.current.rotation.y += 0.01))
+
+  
 
   return (
     <Section factor={1.5} offset={1}>
