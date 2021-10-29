@@ -16,8 +16,8 @@ import { a, useTransition } from "@react-spring/web"
 //Intersection Observer
 import { useInView } from "react-intersection-observer"
 
-function Model() {
-  const gltf = useGLTF("/armchairYellow.gltf", true)
+function Model({path}) {
+  const gltf = useGLTF(path, true)
   return <primitive object={gltf.scene} dispose={null} />
 }
 
@@ -37,7 +37,7 @@ const Lights = () => {
 } 
 
 // Model & Content
-const HTMLContent = () => {
+const HTMLContent = ({children, path, positionY}) => {
   const ref = useRef()
 
   // Spinning going to left
@@ -50,15 +50,11 @@ const HTMLContent = () => {
 
   return (
     <Section factor={1.5} offset={1}>
-      <group position={[0, 250, 0]}>
+      <group position={[0, positionY, 0]}>
         <mesh ref={ref} position={[0, -35, 0]}>
-          <Model />
+          <Model path={path} />
         </mesh>
-        <Html fullscreen>
-          <div className='container'>
-            <h1 className='title'>Hello</h1>
-          </div>
-        </Html>
+        <Html fullscreen>{children}</Html>
       </group>
     </Section>
   )
@@ -75,7 +71,14 @@ export default function App() {
         {/* Lights Component */}
         <Lights />
         <Suspense fallback={null}>
-          <HTMLContent />
+          <HTMLContent
+            path="/armchairYellow.gltf"
+            positionY={250}
+          >
+            <div className='container'>
+              <h1 className='title'>Hello</h1>
+            </div>
+          </HTMLContent>
         </Suspense>
       </Canvas>
     </>
